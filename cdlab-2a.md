@@ -27,27 +27,15 @@ To write a C program to recognize a valid arithmetic expression using `Lex` and 
 #include <stdio.h>
 #include "Validarith.tab.h"
 %}
-
 %%
-// Match variables
-[a-zA-Z]+      return VARIABLE;
-
-// Match numbers
-[0-9]+         return NUMBER;
-
-// Ignore tabs
-[\t]           ;
-
-// Handle end of input
-[\n]           return 0;
-
-// Match any other character
-.              return yytext[0];
-
+[a-zA-Z]+     return VARIABLE;
+[0-9]+        return NUMBER;
+[\t]          ; // Ignore tabs
+[\n]          return 0; // End of input
+.             return yytext[0];
 %%
-
 int yywrap() {
-    return 1; // Indicate end of input
+    return 1;
 }
 ```
 
@@ -59,29 +47,21 @@ int yywrap() {
 %{
 #include <stdio.h>
 #include <stdlib.h>
-
-// Function prototypes
+// Function prototype
 int yylex();
 void yyerror(const char *s);
 %}
-
-// Token definitions
 %token NUMBER
 %token VARIABLE
-
-// Operator precedence
 %left '+' '-'
 %left '*' '/' '%'
 %left '(' ')'
-
 %%
-// Grammar rules
 S: E {
-    printf("\nEntered arithmetic expression is valid.\n");
+    printf("\nEntered arithmetic expression is valid\n\n");
     return 0;
 }
 ;
-
 E: E '+' E
  | E '-' E
  | E '*' E
@@ -91,17 +71,14 @@ E: E '+' E
  | NUMBER
  | VARIABLE
 ;
-
 %%
-
 int main() {
     printf("\nEnter any arithmetic expression: \n");
     yyparse();
     return 0;
 }
-
 void yyerror(const char *s) {
-    printf("\nEntered arithmetic expression is invalid: %s\n", s);
+    printf("\nEntered arithmetic expression is invalid: %s\n\n", s);
 }
 ```
 
