@@ -30,33 +30,23 @@ To develop a lexical analyzer to recognize specific patterns in C, such as **Ide
 %}
 
 %%
-// Keywords
-bool|int|float|char   printf("Keyword\n");
 
-// Operators
-[-+]+                  printf("Operator\n");
-
-// Numbers
-[0-9]+                 printf("Number\n");
-
-// Punctuation Characters
-[,.'"]+                printf("Punctuation Character\n");
-
-// Special Characters
-[&%*$@!]+              printf("Special Character\n");
-
-// Identifiers
-[a-zA-Z]+              printf("Identifier\n");
+bool|int|float|char      { printf("Keyword\n"); }
+[-+]+                    { printf("Operators\n"); }
+[0-9]+                   { printf("Numbers\n"); }
+[,.'"]+                  { printf("Punctuation Chars\n"); }
+[&%*$@!]+                { printf("Special Characters\n"); }
+[a-zA-Z_][a-zA-Z0-9_]*   { printf("Identifiers\n"); }
 
 %%
 
 int main() {
-    yylex(); // Call the lexical analyzer
+    yylex();
     return 0;
 }
 
 int yywrap() {
-    return 1; // Indicate end of file
+    return 1;
 }
 ```
 
